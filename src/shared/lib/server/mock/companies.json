@@ -1,0 +1,14 @@
+[
+  {
+    "id": "1",
+    "name": "First company",
+    "count": 3,
+    "address": "Россия"
+  },
+  {
+    "id": "2",
+    "name": "The best company",
+    "count": 5,
+    "address": "Россия"
+  }
+]
