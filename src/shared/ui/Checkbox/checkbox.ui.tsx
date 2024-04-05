@@ -1,15 +1,22 @@
 import React, {Fragment, useState} from 'react';
+import {useCheckboxContext} from "./checkbox.context";
 
 interface typePropsCheckbox {
     name: string,
-    labelText?: string
+    labelText?: string,
+    default?: boolean
 }
 
 function Checkbox(props:typePropsCheckbox) {
-    const [valueChecked, setValue] = useState<boolean>(false);
+    const [valueChecked, setValue] = useState<boolean>(props.default||false);
+    const ctx = useCheckboxContext();
 
     function changeHandel(e:React.ChangeEvent<HTMLInputElement>) {
         setValue(e.target.checked);
+        if(e.target.checked)
+            ctx.onCheckboxAdd(props.name);
+        else
+            ctx.onCheckboxDelete(props.name);
     }
 
     return <Fragment>

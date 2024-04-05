@@ -1,5 +1,5 @@
 import React from 'react';
-import Companies from "../features/Companies/ui";
+import Companies from "../widgets/Companies";
 
 function App() {
     return (

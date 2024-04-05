@@ -1,2 +1,2 @@
 export {useCompaniesSelector} from './hooks/redux';
-export {companiesReducer, companyAdded, selectAllCompanies} from './slice';
+export {default as companiesReducer, companyAdded, selectAllCompanies} from './slice';

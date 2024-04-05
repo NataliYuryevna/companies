@@ -1,0 +1,58 @@
+[
+  {
+    "id": "1",
+    "surname": "Proleeva",
+    "name": "Natalia",
+    "position": "Middle Frontend developer",
+    "companyId": "1"
+  },
+  {
+    "id": "2",
+    "surname": "Kraev",
+    "name": "Denis",
+    "position": "Frontend developer",
+    "companyId": "1"
+  },
+  {
+    "id": "3",
+    "surname": "",
+    "name": "Daria",
+    "position": "Backend developer",
+    "companyId": "1"
+  },
+  {
+    "id": "4",
+    "surname": "Bravnik",
+    "name": "Natalia",
+    "position": "Frontend developer",
+    "companyId": "2"
+  },
+  {
+    "id": "5",
+    "surname": "Kraev",
+    "name": "Svetlana",
+    "position": "Frontend developer",
+    "companyId": "2"
+  },
+  {
+    "id": "6",
+    "surname": "Volkov",
+    "name": "Dmitrij",
+    "position": "Backend developer",
+    "companyId": "2"
+  },
+  {
+    "id": "7",
+    "surname": "Shishova",
+    "name": "Katerina",
+    "position": "Backend developer",
+    "companyId": "2"
+  },
+  {
+    "id": "8",
+    "surname": "Noskov",
+    "name": "Denis",
+    "position": "Designer",
+    "companyId": "2"
+  }
+]
