@@ -22,10 +22,13 @@ const companySlice = createSlice({
             }
         },
         companyUpdate: {
-            reducer(state, action: PayloadAction<{id:string, name: keyof typeCompany, value: string}>) {
-                return state.map(el=>el.id === action.payload.id ? {...el, [action.payload.name]: action.payload.value} : el);
+            reducer(state, action: PayloadAction<{id:string, name: keyof typeCompany, value: string|number}>) {
+                console.log(action.payload.name);
+                if(action.payload.name === 'count')
+                    return state.map(el=>el.id === action.payload.id ? {...el, [action.payload.name]: (+el[action.payload.name] + Number(action.payload.value))} : el);
+                return state.map(el=>el.id === action.payload.id ? {...el, [action.payload.name]:action.payload.value } : el);
             },
-            prepare(id:string, name: keyof typeCompany, value: string) {
+            prepare(id:string, name: keyof typeCompany, value: string|number) {
                 return {
                     payload: {
                         id,

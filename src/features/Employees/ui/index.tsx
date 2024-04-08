@@ -1,9 +1,10 @@
 import type {typeEmployee, typeEmployeeWithoutCompany} from "../../../shared/lib/server";
 import {Table} from "../../../entities/ui";
-import {employeeUpdate, selectAllEmployees, useEmployeesSelector} from "../lib";
+import {employeeAdded, employeeUpdate, selectAllEmployees, useEmployeesSelector} from "../lib";
 import {useEffect, useState} from "react";
 import {useAppDispatch} from "../../index.store";
-import {InputProvider} from "../../../shared/ui";
+import {Button, InputProvider} from "../../../shared/ui";
+import {companyUpdate} from "../../Companies/lib";
 
 interface typePropsEmployees {
     ids:Set<string>
@@ -22,7 +23,7 @@ function Employees(props:typePropsEmployees) {
             name: employee.name,
             position: employee.position
         })))
-    },[props.ids])
+    },[props.ids, employees])
 
     function updateEmployee(id: string, value:string) {
         if(!!employees.length) {
@@ -35,8 +36,20 @@ function Employees(props:typePropsEmployees) {
         }
     }
 
+    function addNewEmployee() {
+        const keys = props.ids.keys();
+        const id = keys.next().value;
+        dispatch(
+            employeeAdded('','','', id)
+        )
+        dispatch(
+            companyUpdate(id, 'count', 1)
+        )
+    }
+
     return (
         <form>
+            <Button onClick={addNewEmployee} text={'Добавить'}/>
             {!!bodyEmployees.length && <InputProvider onInputUpdate={updateEmployee}>
                 <Table<typeEmployeeWithoutCompany> body={bodyEmployees} head={Object.keys(bodyEmployees[0]) as Array<keyof typeEmployeeWithoutCompany>}/>
             </InputProvider>}
