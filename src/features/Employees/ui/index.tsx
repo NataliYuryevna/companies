@@ -1,7 +1,9 @@
-import type {typeEmployeeWithoutCompany} from "../../../shared/lib/server";
+import type {typeEmployee, typeEmployeeWithoutCompany} from "../../../shared/lib/server";
 import {Table} from "../../../entities/ui";
-import {selectAllEmployees, useEmployeesSelector} from "../lib";
+import {employeeUpdate, selectAllEmployees, useEmployeesSelector} from "../lib";
 import {useEffect, useState} from "react";
+import {useAppDispatch} from "../../index.store";
+import {InputProvider} from "../../../shared/ui";
 
 interface typePropsEmployees {
     ids:Set<string>
@@ -11,6 +13,7 @@ function Employees(props:typePropsEmployees) {
 
     const employees = useEmployeesSelector(selectAllEmployees);
     const [bodyEmployees, setBody] = useState<Array<typeEmployeeWithoutCompany>>([]);
+    const dispatch= useAppDispatch();
 
     useEffect(()=>{
         setBody(employees.filter(employee=>props.ids.has(employee.companyId)).map(employee=>({
@@ -21,9 +24,22 @@ function Employees(props:typePropsEmployees) {
         })))
     },[props.ids])
 
+    function updateEmployee(id: string, value:string) {
+        if(!!employees.length) {
+            let regex = new RegExp(`^${Object.keys(employees[0]).join('|')}`);
+            const idEmployee: string = id.replace(regex,'')
+            regex = new RegExp(`${idEmployee}$`);
+            dispatch(
+                employeeUpdate(idEmployee, id.replace(regex,'') as keyof typeEmployee, value)
+            )
+        }
+    }
+
     return (
         <form>
-            {!!bodyEmployees.length && <Table<typeEmployeeWithoutCompany> body={bodyEmployees} head={Object.keys(bodyEmployees[0]) as Array<keyof typeEmployeeWithoutCompany>}/>}
+            {!!bodyEmployees.length && <InputProvider onInputUpdate={updateEmployee}>
+                <Table<typeEmployeeWithoutCompany> body={bodyEmployees} head={Object.keys(bodyEmployees[0]) as Array<keyof typeEmployeeWithoutCompany>}/>
+            </InputProvider>}
         </form>
     );
 }

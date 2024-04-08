@@ -21,12 +21,26 @@ const employeeSlice = createSlice({
                     }
                 }
             }
+        },
+        employeeUpdate: {
+            reducer(state, action: PayloadAction<{id:string, name: keyof typeEmployee, value: string}>) {
+                return state.map(el=>el.id === action.payload.id ? {...el, [action.payload.name]: action.payload.value} : el);
+            },
+            prepare(id:string, name: keyof typeEmployee, value: string) {
+                return {
+                    payload: {
+                        id,
+                        name,
+                        value
+                    }
+                }
+            }
         }
     }
 })
 
 export const selectAllEmployees = (state: { employees: typeEmployee[] }) => state.employees;
 
-export const {employeeAdded} = employeeSlice.actions;
+export const {employeeAdded, employeeUpdate} = employeeSlice.actions;
 
 export default employeeSlice.reducer;

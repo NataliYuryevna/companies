@@ -20,12 +20,26 @@ const companySlice = createSlice({
                     }
                 }
             }
+        },
+        companyUpdate: {
+            reducer(state, action: PayloadAction<{id:string, name: keyof typeCompany, value: string}>) {
+                return state.map(el=>el.id === action.payload.id ? {...el, [action.payload.name]: action.payload.value} : el);
+            },
+            prepare(id:string, name: keyof typeCompany, value: string) {
+                return {
+                    payload: {
+                        id,
+                        name,
+                        value
+                    }
+                }
+            }
         }
     }
 })
 
 export const selectAllCompanies = (state: { companies: typeCompany[] }) => state.companies;
 
-export const {companyAdded} = companySlice.actions;
+export const {companyAdded, companyUpdate} = companySlice.actions;
 
 export default companySlice.reducer
