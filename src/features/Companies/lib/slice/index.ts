@@ -21,9 +21,11 @@ const companySlice = createSlice({
                 }
             }
         },
+        companyDelete(state, action: PayloadAction<{ids:Array<string>}>) {
+            return state.filter(el=>!action.payload.ids?.includes(el.id));
+        },
         companyUpdate: {
             reducer(state, action: PayloadAction<{id:string, name: keyof typeCompany, value: string|number}>) {
-                console.log(action.payload.name);
                 if(action.payload.name === 'count')
                     return state.map(el=>el.id === action.payload.id ? {...el, [action.payload.name]: (+el[action.payload.name] + Number(action.payload.value))} : el);
                 return state.map(el=>el.id === action.payload.id ? {...el, [action.payload.name]:action.payload.value } : el);
@@ -43,6 +45,6 @@ const companySlice = createSlice({
 
 export const selectAllCompanies = (state: { companies: typeCompany[] }) => state.companies;
 
-export const {companyAdded, companyUpdate} = companySlice.actions;
+export const {companyAdded, companyDelete, companyUpdate} = companySlice.actions;
 
 export default companySlice.reducer

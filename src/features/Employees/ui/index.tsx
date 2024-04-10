@@ -1,18 +1,19 @@
 import type {typeEmployee, typeEmployeeWithoutCompany} from "../../../shared/lib/server";
 import {Table} from "../../../entities/ui";
-import {employeeAdded, employeeUpdate, selectAllEmployees, useEmployeesSelector} from "../lib";
+import {employeeUpdate, selectAllEmployees, useEmployeesSelector} from "../lib";
 import {useEffect, useState} from "react";
 import {useAppDispatch} from "../../index.store";
-import {Button, InputProvider} from "../../../shared/ui";
-import {companyUpdate} from "../../Companies/lib";
+import {InputProvider, useCheckboxContext} from "../../../shared/ui";
 
 interface typePropsEmployees {
-    ids:Set<string>
+    ids:Set<string>,
+    setActiveCompanyIds: (ids:Map<string, number>)=>void
 }
 
 function Employees(props:typePropsEmployees) {
 
     const employees = useEmployeesSelector(selectAllEmployees);
+    const {activeCheckboxes} = useCheckboxContext();
     const [bodyEmployees, setBody] = useState<Array<typeEmployeeWithoutCompany>>([]);
     const dispatch= useAppDispatch();
 
@@ -25,6 +26,17 @@ function Employees(props:typePropsEmployees) {
         })))
     },[props.ids, employees])
 
+    useEffect(() => {
+        const activeCompanyIds:Map<string,number> =new Map();
+        activeCheckboxes.forEach(id=>{
+            const employee = employees.find(el=>el.id === id);
+            if(employee && props.ids.has(employee.companyId)) {
+                activeCompanyIds.set(employee.companyId, ((activeCompanyIds.get(employee.companyId)||0) + 1));
+            }
+        })
+        props.setActiveCompanyIds(activeCompanyIds);
+    }, [activeCheckboxes]);
+
     function updateEmployee(id: string, value:string) {
         if(!!employees.length) {
             let regex = new RegExp(`^${Object.keys(employees[0]).join('|')}`);
@@ -36,20 +48,8 @@ function Employees(props:typePropsEmployees) {
         }
     }
 
-    function addNewEmployee() {
-        const keys = props.ids.keys();
-        const id = keys.next().value;
-        dispatch(
-            employeeAdded('','','', id)
-        )
-        dispatch(
-            companyUpdate(id, 'count', 1)
-        )
-    }
-
     return (
         <form>
-            <Button onClick={addNewEmployee} text={'Добавить'}/>
             {!!bodyEmployees.length && <InputProvider onInputUpdate={updateEmployee}>
                 <Table<typeEmployeeWithoutCompany> body={bodyEmployees} head={Object.keys(bodyEmployees[0]) as Array<keyof typeEmployeeWithoutCompany>}/>
             </InputProvider>}

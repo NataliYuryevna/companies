@@ -1,12 +1,15 @@
 import {Fragment, useState} from "react";
 import Companies from "../../features/Companies/ui";
-import {CheckboxProvider} from "../../shared/ui";
+import {CheckboxProvider, useCheckboxContext} from "../../shared/ui";
 import Employees from "../../features/Employees/ui";
+import {useAppDispatch} from "../../features/index.store";
+import {companyAdded, companyDelete, companyUpdate} from "../../features/Companies/lib";
+import {employeeAdded, employeeDelete} from "../../features/Employees/lib";
+import {DeleteAndAdd} from "../../entities/ui";
 
 function WidgetCompanies() {
 
     const [activeCompany, setActiveCompany] = useState<Set<string>>(new Set());
-    const [activeEmployees, setActiveEmployees] = useState<Set<string>>(new Set());
     function addActiveCompany(id: string) {
         setActiveCompany(prev => new Set(prev.add(id)))
     }
@@ -17,6 +20,44 @@ function WidgetCompanies() {
             return new Set(prev)
         })
     }
+
+    return(<Fragment>
+            <CheckboxProvider onCheckboxDelete={deleteActiveCompany} onCheckboxAdd={addActiveCompany} activeCheckboxes={activeCompany}>
+                <DeleteAndAddCompany/>
+                <Companies/>
+            </CheckboxProvider>
+            {!!activeCompany.size && <WidgetEmployee activeCompanies={activeCompany}/>}
+        </Fragment>
+    );
+}
+
+function DeleteAndAddCompany() {
+    const {activeCheckboxes} = useCheckboxContext();
+    const dispatch = useAppDispatch();
+
+    function addNewCompany() {
+        dispatch(
+            companyAdded('','')
+        )
+    }
+
+    function deleteCompany() {
+        dispatch(
+            employeeDelete({companyIds:Array.from(activeCheckboxes)})
+        )
+        dispatch(
+            companyDelete({ids:Array.from(activeCheckboxes)})
+        )
+
+    }
+
+    return <DeleteAndAdd addHandle={addNewCompany} deleteHandle={deleteCompany}/>
+}
+
+function WidgetEmployee(props:{activeCompanies:Set<string>}) {
+
+    const [activeEmployees, setActiveEmployees] = useState<Set<string>>(new Set());
+    const [activeCompanyIds, setActiveIds] = useState<Map<string,number>>(new Map());
 
     function addActiveEmployees(id: string) {
         setActiveEmployees(prev => new Set(prev.add(id)))
@@ -29,16 +70,41 @@ function WidgetCompanies() {
         })
     }
 
-    return(<Fragment>
-            <CheckboxProvider onCheckboxDelete={deleteActiveCompany} onCheckboxAdd={addActiveCompany} activeCheckboxes={activeCompany}>
-                <Companies/>
-            </CheckboxProvider>
-            {!!activeCompany.size && <CheckboxProvider onCheckboxDelete={deleteActiveEmployees} onCheckboxAdd={addActiveEmployees} activeCheckboxes={activeEmployees}>
-                <Employees ids={activeCompany}/>
-            </CheckboxProvider>}
+    return <CheckboxProvider onCheckboxDelete={deleteActiveEmployees} onCheckboxAdd={addActiveEmployees} activeCheckboxes={activeEmployees}>
+        <DeleteAndAddEmployee activeCompanies={props.activeCompanies} companyIds={activeCompanyIds}/>
+        <Employees ids={props.activeCompanies} setActiveCompanyIds={setActiveIds}/>
+    </CheckboxProvider>
+}
 
-        </Fragment>
-    );
+function DeleteAndAddEmployee(props:{activeCompanies:Set<string>, companyIds: Map<string, number>}) {
+    const {activeCheckboxes} = useCheckboxContext();
+    const dispatch = useAppDispatch();
+
+    function addNewEmployee() {
+        if(props.activeCompanies.size) {
+            const keys = props.activeCompanies.keys();
+            const id = keys.next().value;
+            dispatch(
+                employeeAdded('', '', '', id)
+            )
+            dispatch(
+                companyUpdate(id, 'count', 1)
+            )
+        }
+    }
+
+    function deleteEmployee() {
+        dispatch(
+            employeeDelete({ids:Array.from(activeCheckboxes)})
+        )
+        props.companyIds.forEach((size, companyId)=> {
+            dispatch(
+                companyUpdate(companyId, 'count', -size)
+            )
+        })
+    }
+
+    return <DeleteAndAdd addHandle={addNewEmployee} deleteHandle={deleteEmployee}/>
 }
 
 export default WidgetCompanies;
