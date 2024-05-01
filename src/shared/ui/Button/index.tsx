@@ -3,19 +3,22 @@ import React from "react";
 
 interface propsButton {
     text: string
-    onClick: () => void
+    onClick?: () => void
     className?: 'primary'
-    type?: "button" | "submit" | "reset"
+    type?: "button" | "submit" | "reset" | "cancel"
 }
 
 function Button(props: propsButton) {
     function onClickButton(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-        e.preventDefault();
-        e.stopPropagation();
-        props.onClick()
+        if(props.onClick && (!props.type && props.type === "button")) {
+            e.preventDefault();
+            e.stopPropagation();
+            props.onClick();
+        } else if(props.onClick)
+            props.onClick();
     }
 
-    return <button type={props.type} onClick={onClickButton}
+    return <button type={props.type && props.type === "cancel" ? "button" : props.type} onClick={onClickButton}
                    className={props.className || 'primary'}>{props.text}</button>
 }
 

@@ -1,12 +1,13 @@
 import {Checkbox, InputText, useCheckboxContext} from "../../../shared/ui";
 import {typeCompany, typeEmployeeWithoutCompany} from "../../../shared/lib/server";
+import {PropsWithChildren, ReactNode} from "react";
 
 interface typePropsTable<T> {
     head: Array<keyof T>,
     body: Array<T>
 }
 
-function Table<T extends typeCompany|typeEmployeeWithoutCompany>(props:typePropsTable<T>) {
+function Table<T extends typeCompany|typeEmployeeWithoutCompany>(props:PropsWithChildren<typePropsTable<T>>) {
 
     const ctx = useCheckboxContext();
 
@@ -28,6 +29,7 @@ function Table<T extends typeCompany|typeEmployeeWithoutCompany>(props:typeProps
                     })}
                 </tr>)
             }
+            {props.children}
         </table>
     );
 }

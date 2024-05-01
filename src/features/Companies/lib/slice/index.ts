@@ -1,6 +1,7 @@
-import {createSlice, nanoid, PayloadAction} from "@reduxjs/toolkit";
-import {companiesMock} from "../../../../shared/lib/server";
+import {createSelector, createSlice, nanoid, PayloadAction} from "@reduxjs/toolkit";
+import {companiesMock, typeEmployee} from "../../../../shared/lib/server";
 import type {typeCompany} from "../../../../shared/lib/server";
+import {runInNewContext} from "vm";
 
 const companySlice = createSlice({
     name: 'company',
@@ -42,6 +43,24 @@ const companySlice = createSlice({
         }
     }
 })
+
+export const selectActiveCompanies = createSelector(
+    (state: { companies: typeCompany[] }) => state.companies,
+    (_:{ companies: typeCompany[] }, arg:{count:number, lastId?: string}) => arg,
+    (companies:typeCompany[], arg:{count:number, lastId?: string}) => {
+        if (arg.count) {
+            if (arg.lastId) {
+                const indexLastCompanies = companies.findIndex(company => company.id === arg.lastId) + 1;
+                if (indexLastCompanies !== 0 && companies.length !== indexLastCompanies)
+                    return companies.slice(0, ((companies.length - indexLastCompanies) > arg.count ? arg.count : (companies.length - indexLastCompanies)) + indexLastCompanies);
+                else if(indexLastCompanies !== 0) return companies;
+                else return [];
+            } else
+                return companies.slice(0, arg.count);
+        }
+        return companies;
+    },
+)
 
 export const selectAllCompanies = (state: { companies: typeCompany[] }) => state.companies;
 

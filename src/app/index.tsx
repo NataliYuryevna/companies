@@ -1,10 +1,10 @@
 import React from 'react';
-import Companies from "../widgets/Companies";
+import AppRouter from "./appRouter";
 
 function App() {
     return (
         <div className="App">
-            <Companies/>
+            <AppRouter/>
         </div>
     );
 }
