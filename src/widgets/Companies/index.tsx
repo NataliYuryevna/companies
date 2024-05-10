@@ -6,6 +6,7 @@ import {useAppDispatch} from "../../features/index.store";
 import {companyAdded, companyDelete, companyUpdate} from "../../features/Companies/lib";
 import {employeeDelete} from "../../features/Employees/lib";
 import {DeleteAndAdd} from "../../entities/ui";
+import {Div} from "./index.css";
 
 function WidgetCompanies() {
 
@@ -21,13 +22,15 @@ function WidgetCompanies() {
         })
     }
 
-    return(<Fragment>
+    return(<>
+        <Div>
             <CheckboxProvider onCheckboxDelete={deleteActiveCompany} onCheckboxAdd={addActiveCompany} activeCheckboxes={activeCompany}>
                 <DeleteAndAddCompany/>
                 <Companies/>
             </CheckboxProvider>
-            {!!activeCompany.size && <WidgetEmployee activeCompanies={activeCompany}/>}
-        </Fragment>
+        </Div>
+        {!!activeCompany.size && <WidgetEmployee activeCompanies={activeCompany}/>}
+        </>
     );
 }
 
@@ -45,7 +48,7 @@ function DeleteAndAddCompany() {
 
     }
 
-    return <DeleteAndAdd addHandle={"/newCompany"} deleteHandle={deleteCompany}/>
+    return <DeleteAndAdd addHandle={"/newCompany"} deleteHandle={deleteCompany} sizeActive={activeCheckboxes.size}/>
 }
 
 function WidgetEmployee(props:{activeCompanies:Set<string>}) {
@@ -64,10 +67,12 @@ function WidgetEmployee(props:{activeCompanies:Set<string>}) {
         })
     }
 
-    return <CheckboxProvider onCheckboxDelete={deleteActiveEmployees} onCheckboxAdd={addActiveEmployees} activeCheckboxes={activeEmployees}>
-        <DeleteAndAddEmployee activeCompanies={props.activeCompanies} companyIds={activeCompanyIds}/>
-        <Employees ids={props.activeCompanies} setActiveCompanyIds={setActiveIds}/>
-    </CheckboxProvider>
+    return <Div>
+        <CheckboxProvider onCheckboxDelete={deleteActiveEmployees} onCheckboxAdd={addActiveEmployees} activeCheckboxes={activeEmployees}>
+            <DeleteAndAddEmployee activeCompanies={props.activeCompanies} companyIds={activeCompanyIds}/>
+            <Employees ids={props.activeCompanies} setActiveCompanyIds={setActiveIds}/>
+        </CheckboxProvider>
+    </Div>
 }
 
 function DeleteAndAddEmployee(props:{activeCompanies:Set<string>, companyIds: Map<string, number>}) {
@@ -85,7 +90,7 @@ function DeleteAndAddEmployee(props:{activeCompanies:Set<string>, companyIds: Ma
         })
     }
 
-    return <DeleteAndAdd addHandle={'/newEmployee'} deleteHandle={deleteEmployee}/>
+    return <DeleteAndAdd addHandle={'/newEmployee'} deleteHandle={deleteEmployee} sizeActive={activeCheckboxes.size}/>
 }
 
 export default WidgetCompanies;

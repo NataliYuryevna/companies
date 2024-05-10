@@ -1,5 +1,6 @@
 import './index.css'
 import React from "react";
+import {Button} from "./index.css";
 
 interface propsButton {
     text: string
@@ -8,7 +9,7 @@ interface propsButton {
     type?: "button" | "submit" | "reset" | "cancel"
 }
 
-function Button(props: propsButton) {
+function MyButton(props: propsButton) {
     function onClickButton(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         if(props.onClick && (!props.type && props.type === "button")) {
             e.preventDefault();
@@ -18,8 +19,8 @@ function Button(props: propsButton) {
             props.onClick();
     }
 
-    return <button type={props.type && props.type === "cancel" ? "button" : props.type} onClick={onClickButton}
-                   className={props.className || 'primary'}>{props.text}</button>
+    return <Button type={props.type && props.type === "cancel" ? "button" : props.type} onClick={onClickButton}
+                   $primary={!props.className}>{props.text}</Button>
 }
 
-export default Button
+export default MyButton

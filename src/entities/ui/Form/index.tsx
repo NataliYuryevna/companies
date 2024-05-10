@@ -1,7 +1,7 @@
 import {Button, InputText} from "../../../shared/ui";
 import {typeCompany, typeEmployee} from "../../../shared/lib/server";
 import {Link} from "react-router-dom";
-import './index.css'
+import {Form} from './index.css'
 
 interface typePropsForm<T extends Omit<typeCompany|typeEmployee,'id'|'count'>> {
     addHandle:()=>void,
@@ -10,7 +10,7 @@ interface typePropsForm<T extends Omit<typeCompany|typeEmployee,'id'|'count'>> {
 }
 function MyForm<T extends Omit<typeCompany|typeEmployee,'id'|'count'>>( props:typePropsForm<T>) {
 
-    return <form>
+    return <Form>
         {Object.keys(props.default).map(name=><InputText name={name as string} labelText={name as string} default={ String(props.default[name as keyof T])} />)}
         <div>
             <Link to={'/'}>
@@ -20,7 +20,7 @@ function MyForm<T extends Omit<typeCompany|typeEmployee,'id'|'count'>>( props:ty
             <Button type="cancel" onClick={props.canselHandle} text={'Отмена'}/>
             </Link>
         </div>
-    </form>
+    </Form>
 }
 
 export default MyForm;
