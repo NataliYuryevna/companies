@@ -7,4 +7,10 @@ const Form = styled.form`
     max-width: 300px;
     margin: auto;
 `;
-export {Form};
+
+const Buttons = styled.div`
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+`;
+export {Form, Buttons};

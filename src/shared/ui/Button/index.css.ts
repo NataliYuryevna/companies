@@ -9,6 +9,11 @@ const Button = styled.button<{ $primary?: boolean; }>`
           css`
             background: rgb(138,43,226);
             color: white;
+            border-color: rgb(138,43,226);
+            &:hover {
+              border-color: #9933cc;
+              background: #9933cc;
+            }
     `};
 `
 export {Button}

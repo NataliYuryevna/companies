@@ -1,11 +1,13 @@
-import {Fragment, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useDeferredValue} from "../../lib/hooks";
 import {useInputContext} from "./input.context";
+import {Input} from "./index.css";
 
 interface typePropsInput {
     name: string,
     labelText?:string,
-    default?: string
+    default?: string,
+    form?: boolean
 }
 
 function InputText(props:typePropsInput) {
@@ -22,10 +24,10 @@ function InputText(props:typePropsInput) {
         setValue(e.target.value);
     }
 
-    return <Fragment>
+    return <>
         {props.labelText && <label htmlFor={props.name}>{props.labelText}</label>}
-        <input type={'text'} value={valueText} id={props.name} onChange={changeHandel}/>
-    </Fragment>;
+        <Input type={'text'} value={valueText} id={props.name} onChange={changeHandel} $form={!!props.form}/>
+    </>;
 }
 
 
