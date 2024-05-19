@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 
-const Input = styled.input<{$form?:boolean}>`
+const Select = styled.select<{$form?:boolean}>`
   border-radius: 4px;
   border: 1px solid #000000;
   &:focus {
@@ -12,4 +12,4 @@ const Input = styled.input<{$form?:boolean}>`
   `}
 `;
 
-export {Input}
+export {Select}

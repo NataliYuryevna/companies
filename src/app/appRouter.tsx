@@ -1,7 +1,6 @@
 import React from 'react';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import {Companies, AddEmployee} from "../widgets";
-import AddCompany from "../widgets/AddCompany";
+import {Companies, AddEmployee, AddCompany} from "../widgets";
 
 function AppRouter() {
     return (

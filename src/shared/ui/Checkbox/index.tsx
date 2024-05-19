@@ -1,5 +1,5 @@
-import React, {Fragment, useState} from 'react';
-import {useCheckboxContext} from "./checkbox.context";
+import React, {useState} from 'react';
+import {useCheckboxContext} from "../../lib";
 
 interface typePropsCheckbox {
     name: string,
@@ -19,10 +19,10 @@ function Checkbox(props:typePropsCheckbox) {
             ctx.onCheckboxDelete(props.name);
     }
 
-    return <Fragment>
+    return <>
         {props.labelText && <label htmlFor={props.name}>{props.labelText}</label>}
         <input type={'checkbox'} id={props.name} checked={valueChecked} onChange={changeHandel}/>
-    </Fragment>;
+    </>;
 }
 
 export default Checkbox;

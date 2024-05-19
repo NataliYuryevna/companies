@@ -1,7 +1,6 @@
 import {createSelector, createSlice, nanoid, PayloadAction} from "@reduxjs/toolkit";
-import {companiesMock, typeEmployee} from "../../../../shared/lib/server";
+import {companiesMock, typeEmployee} from "../../../../shared/lib";
 import type {typeCompany} from "../../../../shared/lib/server";
-import {runInNewContext} from "vm";
 
 const companySlice = createSlice({
     name: 'company',

@@ -1,7 +1,7 @@
-import type {typeCompany} from "../../../shared/lib/server";
+import type {typeCompany} from "../../../shared/lib";
 import {Table} from "../../../entities/ui";
 import {companyUpdate, selectActiveCompanies, useCompaniesSelector} from "../lib";
-import {InputProvider} from "../../../shared/ui";
+import {InputProvider} from "../../../shared/lib";
 import {useAppDispatch} from "../../index.store";
 import {useEffect, useState} from "react";
 

@@ -1,9 +1,9 @@
-import type {typeEmployee, typeEmployeeWithoutCompany} from "../../../shared/lib/server";
+import type {typeEmployee, typeEmployeeWithoutCompany} from "../../../shared/lib";
 import {Table} from "../../../entities/ui";
 import {employeeUpdate, selectActiveEmployees, useEmployeesSelector} from "../lib";
 import {useEffect, useState} from "react";
 import {useAppDispatch} from "../../index.store";
-import {InputProvider, useCheckboxContext} from "../../../shared/ui";
+import {InputProvider, useCheckboxContext} from "../../../shared/lib";
 
 interface typePropsEmployees {
     ids:Set<string>,

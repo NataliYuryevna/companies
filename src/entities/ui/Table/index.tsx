@@ -1,5 +1,5 @@
-import {Checkbox, InputText, useCheckboxContext} from "../../../shared/ui";
-import {typeCompany, typeEmployeeWithoutCompany} from "../../../shared/lib/server";
+import {Checkbox, InputText} from "../../../shared/ui";
+import {typeCompany, typeEmployeeWithoutCompany, useCheckboxContext} from "../../../shared/lib";
 import {PropsWithChildren} from "react";
 import {Table, Td, Th, Tr} from "./index.css";
 

@@ -1,28 +1,28 @@
 import {useAppDispatch} from "../../features/index.store";
-import {employeeAdded} from "../../features/Employees/lib";
-import {companyUpdate, selectAllCompanies, useCompaniesSelector} from "../../features/Companies/lib";
+import {employeeAdded, companyUpdate, selectAllCompanies, useCompaniesSelector} from "../../features";
 import {useState} from "react";
-import {typeEmployee} from "../../shared/lib/server";
-import {InputProvider} from "../../shared/ui";
+import type {typeDefaultEmp, typeEmployeeWithoutId, typeCompany} from "../../shared/lib";
+import {InputProvider} from "../../shared/lib";
 import {Form} from "../../entities/ui";
 
 function AddEmployee() {
     const dispatch = useAppDispatch();
     const companies = useCompaniesSelector(selectAllCompanies);
-    const [newEmployee, setNewEmployee] = useState<Omit<typeEmployee,'id'>>({name:'', surname:'', position:'', companyId:companies[0].id});
+    const [newEmployee, setNewEmployee] = useState<typeDefaultEmp|typeEmployeeWithoutId>({name:'', surname:'', position:'', companyId:companies.map(com=>({id:com.id, value:com.name}))});
+    const defaultEmployee = {name:'', surname:'', position:'', companyId:companies.map(com=>({id:com.id, value:com.name}))}
 
     function addNewEmployee() {
         if(companies.length) {
             dispatch(
-                employeeAdded(newEmployee.name, newEmployee.surname, newEmployee.position, newEmployee.companyId)
+                employeeAdded(newEmployee.name, newEmployee.surname, newEmployee.position, newEmployee.companyId as string)
             )
             dispatch(
-                companyUpdate(newEmployee.companyId, 'count', 1)
+                companyUpdate(newEmployee.companyId as string, 'count', 1)
             )
         }
     }
     function canselNewEmployee() {
-        setNewEmployee({name:'', surname:'', position:'', companyId:companies[0].id})
+        setNewEmployee(defaultEmployee)
     }
 
     function updateEmployee(id: string, value: string) {
@@ -30,7 +30,7 @@ function AddEmployee() {
     }
 
     return <InputProvider onInputUpdate={updateEmployee}>
-        <Form<Omit<typeEmployee,'id'>> addHandle={addNewEmployee} default={newEmployee} canselHandle={canselNewEmployee}/>
+        <Form<typeDefaultEmp|typeEmployeeWithoutId> addHandle={addNewEmployee} default={defaultEmployee} canselHandle={canselNewEmployee}/>
     </InputProvider>
 }
 

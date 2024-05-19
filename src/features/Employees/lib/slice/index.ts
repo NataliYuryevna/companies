@@ -1,6 +1,6 @@
 import {createSelector, createSlice, nanoid, PayloadAction} from "@reduxjs/toolkit";
-import {employeesMock, typeCompany} from "../../../../shared/lib/server";
-import type {typeEmployee} from "../../../../shared/lib/server";
+import {employeesMock} from "../../../../shared/lib";
+import type {typeEmployee} from "../../../../shared/lib";
 
 const employeeSlice = createSlice({
     name: 'employee',

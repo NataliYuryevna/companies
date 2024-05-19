@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {useDeferredValue} from "../../lib/hooks";
-import {useInputContext} from "./input.context";
+import {useDeferredValue, useInputContext} from "../../lib";
 import {Input} from "./index.css";
 
 interface typePropsInput {

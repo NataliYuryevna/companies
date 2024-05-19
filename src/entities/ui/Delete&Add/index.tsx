@@ -1,6 +1,6 @@
 import {Button} from "../../../shared/ui";
 import {Link} from "react-router-dom";
-import {Div} from "./index.css";
+import {Buttons} from "./index.css";
 
 interface typePropsDeleteAndAdd {
     addHandle:(()=>void)|string,
@@ -8,8 +8,8 @@ interface typePropsDeleteAndAdd {
     sizeActive: number
 }
 function DeleteAndAdd(props:typePropsDeleteAndAdd) {
-    return <Div $head>
-        { props.sizeActive !== 0 && <Div>
+    return <Buttons $head>
+        { props.sizeActive !== 0 && <Buttons>
             <span>{props.sizeActive} selected</span>
             {
                 typeof props.deleteHandle === "string" ?
@@ -17,7 +17,7 @@ function DeleteAndAdd(props:typePropsDeleteAndAdd) {
                         <Button text={'Delete'}/>
                     </Link> : <Button onClick={props.deleteHandle} text={'Delete'}/>
             }
-            </Div>
+            </Buttons>
         }
         {
         typeof props.addHandle === "string" ?
@@ -26,7 +26,7 @@ function DeleteAndAdd(props:typePropsDeleteAndAdd) {
         </Link> : <Button onClick={props.addHandle} text={'Add'}/>
     }
 
-    </Div>
+    </Buttons>
 }
 
 export default DeleteAndAdd;

@@ -1,8 +1,8 @@
 import {useAppDispatch} from "../../features/index.store";
 import {companyAdded} from "../../features";
 import {useState} from "react";
-import {typeCompany} from "../../shared/lib/server";
-import {InputProvider} from "../../shared/ui";
+import type {typeCompany} from "../../shared/lib";
+import {InputProvider} from "../../shared/lib";
 import {Form} from "../../entities/ui";
 
 function AddCompany() {

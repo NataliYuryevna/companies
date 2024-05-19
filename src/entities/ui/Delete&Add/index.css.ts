@@ -1,14 +1,14 @@
 import styled, { css } from 'styled-components'
 
-const Div = styled.div<{ $head?: boolean; }>`
+const Buttons = styled.div<{ $head?: boolean; }>`
     display: flex;
-    gap: 15px;
+    gap: 10px;
     justify-content: flex-end;
     align-items: center;
     ${props =>
           props.$head &&
           css`
-            padding-bottom: 15px;
+            padding-bottom: 10px;
     `};
 `;
-export {Div};
+export {Buttons};

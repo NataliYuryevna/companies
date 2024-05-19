@@ -1,10 +1,7 @@
-import {Fragment, useState} from "react";
-import Companies from "../../features/Companies/ui";
-import {CheckboxProvider, useCheckboxContext} from "../../shared/ui";
-import Employees from "../../features/Employees/ui";
+import {useState} from "react";
+import {Companies, Employees, companyDelete, companyUpdate, employeeDelete} from "../../features";
+import {CheckboxProvider, useCheckboxContext} from "../../shared/lib";
 import {useAppDispatch} from "../../features/index.store";
-import {companyAdded, companyDelete, companyUpdate} from "../../features/Companies/lib";
-import {employeeDelete} from "../../features/Employees/lib";
 import {DeleteAndAdd} from "../../entities/ui";
 import {Div} from "./index.css";
 
