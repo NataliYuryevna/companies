@@ -32,16 +32,18 @@ function WidgetCompanies() {
 }
 
 function DeleteAndAddCompany() {
-    const {activeCheckboxes} = useCheckboxContext();
+    const {activeCheckboxes, onCheckboxDelete} = useCheckboxContext();
     const dispatch = useAppDispatch();
 
     function deleteCompany() {
+        console.log('hjkjhkj');
         dispatch(
             employeeDelete({companyIds:Array.from(activeCheckboxes)})
         )
         dispatch(
             companyDelete({ids:Array.from(activeCheckboxes)})
         )
+        activeCheckboxes.forEach(checkbox => onCheckboxDelete(checkbox));
 
     }
 
@@ -73,7 +75,7 @@ function WidgetEmployee(props:{activeCompanies:Set<string>}) {
 }
 
 function DeleteAndAddEmployee(props:{activeCompanies:Set<string>, companyIds: Map<string, number>}) {
-    const {activeCheckboxes} = useCheckboxContext();
+    const {activeCheckboxes, onCheckboxDelete} = useCheckboxContext();
     const dispatch = useAppDispatch();
 
     function deleteEmployee() {
@@ -84,7 +86,9 @@ function DeleteAndAddEmployee(props:{activeCompanies:Set<string>, companyIds: Ma
             dispatch(
                 companyUpdate(companyId, 'count', -size)
             )
-        })
+        });
+        activeCheckboxes.forEach(checkbox => onCheckboxDelete(checkbox));
+
     }
 
     return <DeleteAndAdd addHandle={'/newEmployee'} deleteHandle={deleteEmployee} sizeActive={activeCheckboxes.size}/>

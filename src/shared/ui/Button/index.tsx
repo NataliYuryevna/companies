@@ -15,8 +15,9 @@ function MyButton(props: propsButton) {
             e.preventDefault();
             e.stopPropagation();
             props.onClick();
-        } else if(props.onClick)
+        } else if(props.onClick) {
             props.onClick();
+        }
     }
 
     return <Button type={props.type && props.type === "cancel" ? "button" : props.type} onClick={onClickButton}
