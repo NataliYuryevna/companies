@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+const TerserPlugin = require("terser-webpack-plugin");
 
 let mode = 'development'; // По умолчанию режим development
 if (process.env.NODE_ENV === 'production') { // Режим production, если
@@ -28,10 +29,6 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /.css$/,
-                use: "css-loader"
-            },
-            {
                 test: /\.(ts)x?$/,
                 exclude: /node_modules|\.d\.ts$/, // this line as well
                 use: {
@@ -58,7 +55,12 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: './index.html',
             template: './public/index.html',
-            inject: 'body'
-        })
-    ]
+            inject: 'body',
+            alwaysWriteToDisk: true
+        }),
+    ],
+    optimization: {
+        minimize: true,
+        minimizer: [new TerserPlugin()],
+    }
 };
