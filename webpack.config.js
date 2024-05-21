@@ -1,4 +1,6 @@
 const path = require('path');
+const webpack = require('webpack');
+var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 let mode = 'development'; // По умолчанию режим development
 if (process.env.NODE_ENV === 'production') { // Режим production, если
@@ -11,8 +13,7 @@ module.exports = {
     entry: path.join(__dirname, "src/index.tsx"),
     output: {
         path: path.resolve(__dirname, "build"),
-        filename: "bundle.js",
-        publicPath: "/"
+        filename: "./bundle.js",
     },
     resolve: {
         extensions: ['.ts', '.tsx', '.js']
@@ -52,5 +53,11 @@ module.exports = {
             },
 
         ]
-    }
+    },
+    plugins: [
+        new HtmlWebpackPlugin({
+            filename: './index.html',
+            template: './public/index.html'
+        })
+    ]
 };
